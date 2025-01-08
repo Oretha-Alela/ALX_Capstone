@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import InventoryItemListCreateView, InventoryItemDetailView, InventoryChangeLogView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('inventory/', InventoryItemListCreateView.as_view(), name='inventory-list-create'),
+    path('inventory/<int:pk>/', InventoryItemDetailView.as_view(), name='inventory-detail'),
+    path('inventory/<int:item_id>/logs/', InventoryChangeLogView.as_view(), name='inventory-change-logs'),
 ]
+
