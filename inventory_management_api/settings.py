@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-hikvduewjx!5k@qkp&tf5kydia_5(#&dl&yi=3_*bueao6(oo-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -151,3 +151,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import dj_database_url
+import os
+
+# Default database configuration
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
+    )
+}
+
+# Additional settings for production (e.g., SSL for PostgreSQL)
+if os.getenv('DJANGO_ENV') == 'production':
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require',
+    }
+
