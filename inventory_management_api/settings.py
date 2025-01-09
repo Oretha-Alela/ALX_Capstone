@@ -59,6 +59,7 @@ REST_FRAMEWORK = {
 }
 
 
+
 # REST_FRAMEWORK = {
     #'DEFAULT_AUTHENTICATION_CLASSES': [
         #'rest_framework.authentication.TokenAuthentication',
@@ -181,3 +182,16 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 
+
+from datetime import timedelta
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY, 
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}

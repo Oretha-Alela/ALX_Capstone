@@ -15,12 +15,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+#from django.urls import path
+#from .views import InventoryItemListCreateView, InventoryItemDetailView, InventoryChangeLogView
+
+#urlpatterns = [
+    #path('inventory/', InventoryItemListCreateView.as_view(), name='inventory-list-create'),
+    #path('inventory/<int:pk>/', InventoryItemDetailView.as_view(), name='inventory-detail'),
+    #path('inventory/<int:item_id>/logs/', InventoryChangeLogView.as_view(), name='inventory-change-logs'),
+#]
+
+
+
+
 from django.urls import path
-from .views import InventoryItemListCreateView, InventoryItemDetailView, InventoryChangeLogView
+from . import views
 
 urlpatterns = [
-    path('inventory/', InventoryItemListCreateView.as_view(), name='inventory-list-create'),
-    path('inventory/<int:pk>/', InventoryItemDetailView.as_view(), name='inventory-detail'),
-    path('inventory/<int:item_id>/logs/', InventoryChangeLogView.as_view(), name='inventory-change-logs'),
+    path('', views.InventoryItemListCreateView.as_view(), name='inventory-list-create'),
+    path('<int:pk>/', views.InventoryItemDetailView.as_view(), name='inventory-detail'),
+    path('<int:item_id>/logs/', views.InventoryChangeLogView.as_view(), name='inventory-change-logs'),
 ]
+
 
