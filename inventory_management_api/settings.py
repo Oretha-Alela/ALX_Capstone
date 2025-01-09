@@ -168,3 +168,16 @@ if os.getenv('DJANGO_ENV') == 'production':
         'sslmode': 'require',
     }
 
+
+
+
+
+import os
+
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
+
