@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-hikvduewjx!5k@qkp&tf5kydia_5(#&dl&yi=3_*bueao6(oo-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -76,7 +76,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 ROOT_URLCONF = 'inventory_management_api.urls'
 
@@ -102,11 +107,10 @@ WSGI_APPLICATION = 'inventory_management_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+DATABASES = { 
+     'default': 
+        'ENGINE':'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
 }
 
 
@@ -150,3 +154,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+import dj_database_url
+import os
+
+# Default database configuration
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
+    )
+}
+
+# Additional settings for production
+if os.getenv('DJANGO_ENV') == 'production':
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require',
+    }
