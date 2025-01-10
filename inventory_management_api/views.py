@@ -67,3 +67,18 @@ from django.views.generic import TemplateView
 
 class InventoryView(LoginRequiredMixin, TemplateView):
     template_name = "inventory.html"
+
+
+
+
+
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from rest_framework.pagination import PageNumberPagination
+
+class InventoryItemListCreateView(generics.ListCreateAPIView):
+    ...
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['category', 'price']
+    ordering_fields = ['name', 'quantity', 'price', 'date_added']
+    pagination_class = PageNumberPagination
