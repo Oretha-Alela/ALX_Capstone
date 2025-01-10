@@ -29,11 +29,14 @@ from django.contrib import admin
 
 from django.urls import path
 from . import views
+from .views import CustomTokenObtainView
 
 urlpatterns = [
     path('', views.InventoryItemListCreateView.as_view(), name='inventory-list-create'),
     path('<int:pk>/', views.InventoryItemDetailView.as_view(), name='inventory-detail'),
     path('<int:item_id>/logs/', views.InventoryChangeLogView.as_view(), name='inventory-change-logs'),
+    path('api/token/custom/', CustomTokenObtainView.as_view(), name='custom_token_obtain'),
 ]
+
 
 
