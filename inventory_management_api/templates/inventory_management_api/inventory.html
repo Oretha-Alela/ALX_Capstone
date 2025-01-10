@@ -1,5 +1,1 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
 
-class InventoryView(LoginRequiredMixin, TemplateView):
-    template_name = "inventory.html"

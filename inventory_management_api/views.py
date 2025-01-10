@@ -60,3 +60,10 @@ class InventoryView(APIView):
 
     def get(self, request):
         return Response({"message": "Authenticated access"})
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
+class InventoryView(LoginRequiredMixin, TemplateView):
+    template_name = "inventory.html"
