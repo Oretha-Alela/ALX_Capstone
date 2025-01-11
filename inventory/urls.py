@@ -17,9 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
 from django.http import HttpResponse
-
+"""
 #def home_view(request):
     #return HttpResponse("Welcome to the Inventory Management API!")
 
@@ -32,6 +31,19 @@ urlpatterns = [
     path('', redirect_to_api),
 
     #path('', home_view, name='home'),  
+]
+
+
+
+"""
+
+def home_view(request):
+    return HttpResponse("Welcome to the Inventory Management API! Use /api/ for API access.")
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('inventory_management_api.urls')),  # API endpoints under /api/
+    path('', home_view, name='home'),  # Root path handler
 ]
 
 
