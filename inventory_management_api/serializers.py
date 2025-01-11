@@ -8,6 +8,11 @@ class InventoryItemSerializer(serializers.ModelSerializer):
         read_only_fields = ('date_added', 'last_updated', 'owner')
 
 class InventoryChangeLogSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField() 
     class Meta:
         model = InventoryChangeLog
         fields = '__all__'
+
+
+
+

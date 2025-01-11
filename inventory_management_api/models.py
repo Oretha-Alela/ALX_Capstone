@@ -17,8 +17,13 @@ class InventoryItem(models.Model):
 
 
 
+
 class InventoryChangeLog(models.Model):
-    item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, related_name='change_logs')
-    change = models.IntegerField()
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE, related_name="change_logs")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    quantity_before = models.PositiveIntegerField()
+    quantity_after = models.PositiveIntegerField()
+    change_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Change for {self.item.name} by {self.user.username if self.user else 'Unknown'}"

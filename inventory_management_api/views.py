@@ -22,10 +22,13 @@ class InventoryItemDetailView(generics.RetrieveUpdateDestroyAPIView):
         return self.queryset.filter(owner=self.request.user)
 
 class InventoryChangeLogView(generics.ListAPIView):
+    
+    class InventoryChangeLogView(generics.ListAPIView):
     serializer_class = InventoryChangeLogSerializer
 
     def get_queryset(self):
-        return InventoryChangeLog.objects.filter(item_id=self.kwargs['item_id'])
+        item_id = self.kwargs['item_id']
+        return InventoryChangeLog.objects.filter(item_id=item_id).order_by('-change_time')
 
 
 from django.contrib.auth import authenticate, login
@@ -104,3 +107,10 @@ class InventoryItemListView(generics.ListAPIView):
             queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
         
         return queryset
+
+
+
+
+
+
+
