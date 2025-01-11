@@ -75,10 +75,32 @@ class InventoryView(LoginRequiredMixin, TemplateView):
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import generics
+from .models import InventoryItem
+from .serializers import InventoryItemSerializer
 
 class InventoryItemListCreateView(generics.ListCreateAPIView):
-    ...
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    queryset = InventoryItem.objects.all()
+    serializer_class = InventoryItemSerializer
     filterset_fields = ['category', 'price']
-    ordering_fields = ['name', 'quantity', 'price', 'date_added']
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['price', 'quantity', 'name', 'date_added']  # Allows sorting
     pagination_class = PageNumberPagination
+
+
+class InventoryItemListView(generics.ListAPIView):
+    
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        low_stock_threshold = self.request.query_params.get('low_stock', None)
+        if low_stock_threshold:
+            queryset = queryset.filter(quantity__lt=int(low_stock_threshold))
+        
+        # Price range filter
+        min_price = self.request.query_params.get('min_price', None)
+        max_price = self.request.query_params.get('max_price', None)
+        if min_price and max_price:
+            queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+        
+        return queryset
