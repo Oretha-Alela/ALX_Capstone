@@ -24,7 +24,7 @@ class InventoryItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 class InventoryChangeLogView(generics.ListAPIView):
     
     class InventoryChangeLogView(generics.ListAPIView):
-    serializer_class = InventoryChangeLogSerializer
+        serializer_class = InventoryChangeLogSerializer
 
     def get_queryset(self):
         item_id = self.kwargs['item_id']

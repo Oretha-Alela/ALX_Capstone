@@ -52,6 +52,7 @@ MIDDLEWARE = [
 ]
 
 
+
 ROOT_URLCONF = 'inventory.urls'
 
 TEMPLATES = [
@@ -132,15 +133,20 @@ AUTHENTICATION_BACKENDS = [
 LOGOUT_REDIRECT_URL = '/'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # Add the global templates directory here
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
